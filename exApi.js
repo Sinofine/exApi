@@ -2,7 +2,8 @@
 const EhFetch = require('./ehFetch');
 const EhParse = require('./ehParse');
 const EhDown = require('./ehDown');
-
+const EhUrl = require('./ehUrl');
+const fs = require('fs');
 class ExApi {
     _EhHtml;
     constructor (userCookies, socks5proxy) {
@@ -44,6 +45,14 @@ class ExApi {
         let info = await this.getGalleryInfo(href);
         let down = new EhDown(info, this._EhHtml.getViewImg, EhFetch.fetch);
         return down.run(path);
+    }
+    async downloadArchive(href, path = './download'){
+        let [gid,token] = href.match(/hentai.org\/g\/(.*?)\/(.*?)\//).slice(1);
+        let info = await (await this.getGalleryInfo(href)).getAllInfo();
+        let downpage = await EhFetch.fetch(EhUrl.host+'/archiver.php?gid='+gid+'&token='+token+'&or='+info.archiver_id,{method: "POST", body:"dltype=res&dlcheck=Download+Resample+Archive"});
+        await EhFetch.fetch(downpage.match(/document\.location = "(.*?)"/)[1]);
+        let download = await EhFetch.fetch(downpage.match(/document\.location = "(.*?)"/)[1]+"?start=1",{},true);
+        fs.writeFileSync(path+"/archive.zip",download);
     }
 }
 

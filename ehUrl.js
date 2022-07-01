@@ -1,5 +1,5 @@
 class EhUrl {
-    static host = 'https://exhentai.org'
+    static host = 'https://e-hentai.org'
 
     static indexPage(page) {
         return `${this.host}/?page=${page}`;

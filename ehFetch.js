@@ -3,12 +3,12 @@ const EhUrl = require("./ehUrl");
 const SocksProxyAgent = require('socks-proxy-agent');
 
 async function $fetch(url, config = {}, isImg = false) {
-    config.method = 'GET';
+    if(!config.method) config.method = 'GET';
     config.redirect = 'follow';
     config.headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0',
         'content-type': 'text/html,image/webp,*/*;q=0.8',
-        'Cookie': isImg ? '' : EhHtml.userCookies,
+        'Cookie': EhHtml.userCookies,
         'Referer': EhUrl.host
     }
 

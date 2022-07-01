@@ -182,7 +182,8 @@ class EhGallery {
             this._info.title = [];
             this._info.title[0] = $("#gn").text();
             this._info.title[1] = $("#gj").text();
-            this._info.cover = $("#gd1>div").attr("style").match(/url\((.*?)\)/)[1]
+            this._info.archiver_id = $("#gd5 a").attr("onclick").match(/&or=(.*)'/)[1];
+            this._info.cover = $("#gd1>div").attr("style").match(/url\((.*?)\)/)[1];
             this._info.uploader = $("#gdn>a").text();
 
             {   //如name[] 所示
@@ -370,5 +371,6 @@ module.exports = {
     EhIndex: EhIndex,
     EhGallery: EhGallery,
     EhSearch: EhSearch,
-    EhImg: EhImg
+    EhImg: EhImg,
+    EhArchive: EhArchive
 }
