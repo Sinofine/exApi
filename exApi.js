@@ -3,7 +3,7 @@ const EhFetch = require('./ehFetch');
 const EhParse = require('./ehParse');
 const EhDown = require('./ehDown');
 const EhUrl = require('./ehUrl');
-const fs = require('fs');
+const fs = require('fs/promises');
 class ExApi {
     _EhHtml;
     constructor (userCookies, socks5proxy) {
@@ -52,7 +52,7 @@ class ExApi {
         let downpage = await EhFetch.fetch(EhUrl.host+'/archiver.php?gid='+gid+'&token='+token+'&or='+info.archiver_id,{method: "POST", body:"dltype=res&dlcheck=Download+Resample+Archive"});
         await EhFetch.fetch(downpage.match(/document\.location = "(.*?)"/)[1]);
         let download = await EhFetch.fetch(downpage.match(/document\.location = "(.*?)"/)[1]+"?start=1",{},true);
-        fs.writeFileSync(path+"/archive.zip",download);
+        await fs.writeFile(path+"/archive.zip",download);
     }
 }
 
